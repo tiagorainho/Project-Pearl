@@ -1,0 +1,65 @@
+import speech_recognition as sr
+from gtts import gTTS
+import sys, os
+import pygame
+from io import BytesIO
+from pygame import mixer
+import playsound
+ 
+def speak(text):
+    tts = gTTS(text = text, lang = 'en')
+    fileName = "lastResponse.mp3"
+    tts.save(fileName)
+    playsound.playsound(fileName)
+
+
+def stopmusic():
+    pygame.mixer.music.stop()
+
+
+def getmixerargs():
+    pygame.mixer.init()
+    freq, size, chan = pygame.mixer.get_init()
+    return freq, size, chan
+
+def say(text):
+    tts = gTTS(text=text, lang='en')
+    tts.speed = 2
+    fp = BytesIO()
+    tts.write_to_fp(fp)
+    fp.seek(0)
+    pygame.mixer.init()
+    pygame.mixer.music.set_volume(1)
+    pygame.mixer.music.load(fp)
+    pygame.mixer.music.play()
+    i = 0
+    count = 0
+    while pygame.mixer.music.get_busy():
+        print(i)
+        for a in range(0,20):       #                            IMPLEMENTAR FORMA DE PARAR
+            count+=1
+            print(i)
+        i += 1
+        pygame.time.Clock().tick(10)
+    print("count: " + str(count))
+
+def main():
+    r = sr.Recognizer()
+ 
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source)
+        print("Listening... ")
+        audio = r.listen(source)
+        print("Recognizing now.... ")
+        try:
+            print("You said: " + r.recognize_google(audio) + "\n")
+            print("Audio Recorded Successfully \n ")
+        except Exception as e:
+            print("Not recognized:  " + str(e))
+        #save audio
+        with open("recorded.wav", "wb") as f:
+            f.write(audio.get_wav_data())
+
+if __name__ == "__main__":
+    speak("Good night!")
+    main()
