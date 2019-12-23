@@ -1,17 +1,17 @@
 import speech_recognition as sr
-import pyaudio
-import wave
 import sys, os
 import time
-import json
 from scripts import Sound
-
+from scripts import Commands
 
 
 s = Sound.Sound()
+os.system("clear")
+voiceAnalyser = Commands.voiceAnalyser('Config/commands.json')
 
 def test():
-    s.playMusic()
+    print(voiceAnalyser.getMostSimilar("play"))
+    print("Done")
 
 def main():
     r = sr.Recognizer()
@@ -24,7 +24,7 @@ def main():
             try:
                 print("You said: " + r.recognize_google(audio) + "\n")
                 try:
-                    with open("recorded.wav", "wb") as f:
+                    with open("Output/recorded.wav", "wb") as f:
                         f.write(audio.get_wav_data())
                     #print("Audio Recorded Successfully \n ")
                 except Exception as e2:

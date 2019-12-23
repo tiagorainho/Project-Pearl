@@ -8,6 +8,7 @@ import time
 from pynput import keyboard
 import pydub
 import random
+from pydub.playback import play as playAll
 
 class Sound:
     def __init__(self):
@@ -125,11 +126,18 @@ class Sound:
             self.play(files[0])
 
     def speak(self, text):
+        self.play(self.prepareSpeech(text))
+    
+    def speakWithoutInteruption(self, text):
+        sound = pydub.AudioSegment.from_mp3(self.prepareSpeech(text))
+        sound.export(self.fileTemp, format="wav")
+        playAll(sound)
+
+    def prepareSpeech(self, text):
         fileName = "Output/lastResponse.mp3"
         tts = gTTS(text = text, lang = 'en')
         tts.save(fileName)
-        self.play(fileName)
-        #playsound.playsound(fileName)
+        return fileName
 
     def restart(self):
         self.stream = None

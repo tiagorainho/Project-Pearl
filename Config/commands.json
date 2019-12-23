@@ -1,0 +1,26 @@
+{
+    "commands":[
+        {
+            "command": "Play music",
+            "equivalent":[
+                "Play music",
+                "Play some music",
+                "Play some"
+            ]
+        },
+        {
+            "command": "What time it is",
+            "equivalent":[
+                "Whats the time",
+                "What time it is"
+            ]
+        },
+        {
+            "command": "how are you",
+            "equivalent":[
+                "how are you",
+                "hehe"
+            ]
+        }
+    ]
+}
