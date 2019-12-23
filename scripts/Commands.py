@@ -1,8 +1,9 @@
 from scripts import MinHash
 import json
 
-class voiceAnalyser:
-    def __init__(self, commandsFile):
+class CommandsAnalyser:
+    def __init__(self, commandsFile, threshHold = 0.4):
+        self.threshHold = threshHold
         self.minHash = MinHash.MinHash(100)
         with open(commandsFile) as f:
             self.commands = json.load(f)["commands"]
@@ -19,6 +20,15 @@ class voiceAnalyser:
                 lst.append(variant.lower())
         self.minHash.add(lst)
 
+    #def getMostSimilarId(self, signature):
+    #    for i in range(self.minHash.size):
+
+    def getMostSimilarDifferentThreshHold(self, threshHold):
+        prevThreshHold = self.threshHold
+        command = self.getMostSimilar()
+        self.threshHold = prevThreshHold
+        return command
+
     def getMostSimilar(self, content):
         if len(content) == 0:
             return ""
@@ -34,8 +44,11 @@ class voiceAnalyser:
                     prediction = command["command"]
                 counter += 1
                 for variant in command["equivalent"]:
+                    auxSimilarity = self.minHash.getSimilaritySignatures(signature, self.minHash.signatures[counter])
                     if auxSimilarity > bigger:
                         bigger = auxSimilarity
                         prediction = command["command"]
                     counter += 1
+        if bigger < self.threshHold:
+            return ""
         return prediction

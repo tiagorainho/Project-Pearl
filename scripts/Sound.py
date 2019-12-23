@@ -13,7 +13,7 @@ from pydub.playback import play as playAll
 class Sound:
     def __init__(self):
         self.p = pyaudio.PyAudio()
-        self.fileTemp = "Output/auxWaveFile.wav"
+        self.fileTemp = "Output/lastAudioOutput.wav"
         self.stream = None
         self.wf = None
         self.paused = False
@@ -29,6 +29,11 @@ class Sound:
     def play(self, fileName):
         #playsound.playsound(fileName)
         # audio here
+        self.paused = False
+        self.abort = False
+        self.prev = False
+        self.next = False
+        
         sound = pydub.AudioSegment.from_mp3(fileName)
         sound.export(self.fileTemp, format="wav")
         self.wf = wave.open(self.fileTemp, 'rb')
@@ -91,14 +96,14 @@ class Sound:
         data = self.wf.readframes(frame_count)
         return (data, pyaudio.paContinue)
 
-    def playMusic(self):
-        self.playMusicFromFile("Music")
+    #def playMusic(self):
+    #    self.playMusicFromFile("Music")
 
-    def playMusicFromFile(self, path):
+    def playMusic(self, path = "Music"):
         files = []
         for r, d, f in os.walk(path):
             for file in f:
-                if file.endswith("mp3"):
+                if file.endswith(".mp3"):
                     files.append(os.path.join(r, file))
         index = -1
         previousMusics = []

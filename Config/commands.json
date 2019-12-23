@@ -4,22 +4,31 @@
             "command": "Play music",
             "equivalent":[
                 "Play music",
-                "Play some music",
+                "Play some music while i am watching tv",
                 "Play some"
             ]
         },
         {
-            "command": "What time it is",
+            "command": "What time is it",
             "equivalent":[
                 "Whats the time",
-                "What time it is"
+                "What time it is",
+                "Give me the time"
             ]
         },
         {
             "command": "how are you",
             "equivalent":[
-                "how are you",
-                "hehe"
+                "You cool",
+                "what's up"
+            ]
+        },
+        {
+            "command": "date",
+            "equivalent":[
+                "give me the date",
+                "what's the date",
+                "what's the date"
             ]
         }
     ]

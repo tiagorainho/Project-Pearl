@@ -44,7 +44,7 @@ class MinHash:
     def getSignature(self, content):
         shingles = self.getShingles(content)
         signature = [self.defaultInsertValue]*self.permutations
-        for i in range(self.permutations):
+        for i in range(self.permutations-1):
             minor = self.defaultInsertValue
             for shinglesAux in shingles:
                 hashValue = Hash.hashFunction(shinglesAux)
