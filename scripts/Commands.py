@@ -20,8 +20,15 @@ class CommandsAnalyser:
                 lst.append(variant.lower())
         self.minHash.add(lst)
 
-    #def getMostSimilarId(self, signature):
-    #    for i in range(self.minHash.size):
+    def listCommands(self):
+        if len(self.commands) == 0:
+            return "No commands found"
+        content = "Commands list:\n"
+        count = 1
+        for command in self.commands:
+            content += "\t" + str(count) + " - " + command["command"].lower() + "\n"
+            count += 1
+        return content
 
     def getMostSimilarDifferentThreshHold(self, threshHold):
         prevThreshHold = self.threshHold

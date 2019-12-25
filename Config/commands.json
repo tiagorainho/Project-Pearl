@@ -24,11 +24,34 @@
             ]
         },
         {
-            "command": "date",
+            "command": "get date",
             "equivalent":[
                 "give me the date",
                 "what's the date",
                 "what's the date"
+            ]
+        },
+        {
+            "command": "get my ip",
+            "equivalent":[
+                "give me my ip",
+                "give me the ip",
+                "get ip",
+                "show my ip"
+            ]
+        },
+        {
+            "command": "get my computer name",
+            "equivalent":[
+                "computer name",
+                "what's my computer name"
+            ]
+        },
+        {
+            "command": "list commands",
+            "equivalent":[
+                "show me commands",
+                "what commands can I use"
             ]
         }
     ]

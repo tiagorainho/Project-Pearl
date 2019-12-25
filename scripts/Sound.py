@@ -3,12 +3,11 @@ from gtts import gTTS
 import pyaudio
 import wave
 import sys, os
-import playsound
 import time
 from pynput import keyboard
 import pydub
 import random
-from pydub.playback import play as playAll
+from pydub.playback import play as bruteForcePlay
 
 class Sound:
     def __init__(self):
@@ -27,13 +26,7 @@ class Sound:
         self.nextKey = 269025047
 
     def play(self, fileName):
-        #playsound.playsound(fileName)
-        # audio here
-        self.paused = False
-        self.abort = False
-        self.prev = False
-        self.next = False
-        
+
         sound = pydub.AudioSegment.from_mp3(fileName)
         sound.export(self.fileTemp, format="wav")
         self.wf = wave.open(self.fileTemp, 'rb')
@@ -96,9 +89,6 @@ class Sound:
         data = self.wf.readframes(frame_count)
         return (data, pyaudio.paContinue)
 
-    #def playMusic(self):
-    #    self.playMusicFromFile("Music")
-
     def playMusic(self, path = "Music"):
         files = []
         for r, d, f in os.walk(path):
@@ -112,6 +102,7 @@ class Sound:
             while self.continueKey:
                 if pointer < len(previousMusics):
                     index = previousMusics[pointer]
+                    print("Playing " + files[index])
                     self.play(files[index])
                     pointer += 1
                 else:
@@ -119,6 +110,7 @@ class Sound:
                     if possibleNextIndex != index:
                         index = possibleNextIndex
                         previousMusics.append(index)
+                        print("Playing " + files[index])
                         self.play(files[index])
                         pointer += 1
                 if self.prev == True:
@@ -136,7 +128,7 @@ class Sound:
     def speakWithoutInteruption(self, text):
         sound = pydub.AudioSegment.from_mp3(self.prepareSpeech(text))
         sound.export(self.fileTemp, format="wav")
-        playAll(sound)
+        bruteForcePlay(sound)
 
     def prepareSpeech(self, text):
         fileName = "Output/lastResponse.mp3"
@@ -145,8 +137,8 @@ class Sound:
         return fileName
 
     def restart(self):
-        self.stream = None
-        self.wf = None
+        #self.stream = None
+        #self.wf = None
         self.paused = False
         self.abort = False
         self.next = False
